@@ -16,6 +16,8 @@
   },
   "keywords": [
     "rdf",
+    "dereference",
+    "fetch",
     "parse",
     "stream",
     "rdfjs",
