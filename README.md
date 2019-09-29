@@ -32,6 +32,13 @@ The following RDF serializations are supported:
 Internally, this library makes use of RDF parsers from the [Comunica framework](https://github.com/comunica/comunica),
 which enable streaming processing of RDF.
 
+Internally, the following fully spec-compliant parsers are used:
+
+* [N3.js](https://github.com/rdfjs/n3.js)
+* [jsonld-streaming-parser.js](https://github.com/rubensworks/jsonld-streaming-parser.js)
+* [rdfa-streaming-parser.js](https://github.com/rubensworks/rdfa-streaming-parser.js)
+* [rdfxml-streaming-parser.js](https://github.com/rdfjs/rdfxml-streaming-parser.js)
+
 _If you need something more low-level with more control, have a look at [`rdf-parse`](https://github.com/rubensworks/rdf-parse.js#readme)._
 
 ## Installation
