@@ -85,7 +85,7 @@ const { quads1 } = await rdfDereferencer.dereference('https://www.rubensworks.ne
 const { quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
 ```
 
-### Importing the resulting quads into store
+### Importing the resulting quads into a store
 
 These resulting quads can easily be stored in a [more convenient datastructure](http://rdf.js.org/stream-spec/#store-interface)
 using tools such as [`rdf-store-stream`](https://www.npmjs.com/package/rdf-store-stream):
