@@ -121,6 +121,26 @@ const { quads, triples } = await rdfDereferencer.dereference('https://ruben.verb
 console.log(triples); // If the document only supported triples, true in this case, since it returned Turtle.
 ```
 
+### Command line usage
+
+A CLI version of this tool exists, which can be installed globally as follows:
+
+```bash
+$ npm install -g rdf-dereference
+```
+
+After that, you can dereference any URL to a compact JSON-based quad representation:
+
+```bash
+$ rdf-dereference https://www.rubensworks.net/
+[
+{"subject":"https://www.rubensworks.net/","predicate":"http://xmlns.com/foaf/0.1/primaryTopic","object":"https://www.rubensworks.net/#me","graph":""},
+{"subject":"https://www.rubensworks.net/","predicate":"http://xmlns.com/foaf/0.1/maker","object":"https://www.rubensworks.net/#me","graph":""},
+{"subject":"https://www.rubensworks.net/#me","predicate":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","object":"http://xmlns.com/foaf/0.1/Person","graph":""},
+{"subject":"https://www.rubensworks.net/#me","predicate":"http://xmlns.com/foaf/0.1/name","object":"\"Ruben Taelman\"","graph":""},
+...
+```
+
 ## License
 This software is written by [Ruben Taelman](http://rubensworks.net/).
 
