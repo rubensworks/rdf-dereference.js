@@ -12,7 +12,8 @@ without having to concern yourself with determining the correct content type and
 
 RDF contents are returned as an _RDF stream_ with [RDFJS](http://rdf.js.org/)-compliant quads.
 This library takes care of all the necessary boilerplate automatically,
-such as content negotiation for getting appropriate RDF serialization, decompression, following redirects, setting base URLs, and so on. 
+such as content negotiation for getting appropriate RDF serialization, decompression, following redirects, setting base URLs, and so on.
+If the server did not emit any content type, then the content type will be guessed based on well-known extensions.
 
 The following RDF serializations are supported:
 
@@ -30,6 +31,8 @@ The following RDF serializations are supported:
 
 Internally, this library makes use of RDF parsers from the [Comunica framework](https://github.com/comunica/comunica),
 which enable streaming processing of RDF.
+
+_If you need something more low-level with more control, have a look at [`rdf-parse`](https://github.com/rubensworks/rdf-parse.js#readme)._
 
 ## Installation
 
@@ -59,7 +62,64 @@ const rdfDereferencer = require("rdf-dereference").default;
 
 ## Usage
 
-TODO
+### Dereferencing an RDF document
+
+The `rdfDereferencer.dereference` method accepts an URL,
+and outputs a promise resolving to an object containing a quad stream.
+
+```javascript
+const { quads } = await rdfDereferencer.dereference('http://dbpedia.org/page/12_Monkeys');
+quads.on('data', (quad) => console.log(quad))
+     .on('error', (error) => console.error(error))
+     .on('end', () => console.log('All done!'));
+```
+
+Such a stream is useful when the RDF document is huge,
+and you want to process it in a memory-efficient way.
+
+Dereferencing works with any kind of RDF serialization,
+even HTML documents containing RDFa and JSON-LD:
+
+```javascript
+const { quads1 } = await rdfDereferencer.dereference('https://www.rubensworks.net/');
+const { quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
+```
+
+### Importing the resulting quads into store
+
+These resulting quads can easily be stored in a [more convenient datastructure](http://rdf.js.org/stream-spec/#store-interface)
+using tools such as [`rdf-store-stream`](https://www.npmjs.com/package/rdf-store-stream):
+
+```javascript
+import {storeStream} from "rdf-store-stream";
+
+const store = await storeStream(quads);
+
+const resultStream = store.match(namedNode('http://example.org/subject'));
+```
+
+### Advanced features
+
+#### Determining the final URL
+
+If dereferencing went through various redirects, it may be useful to determine the final URL.
+This can be done using the `url` field of the output object:
+
+```javascript
+const { quads, url } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
+console.log(url); // The final URL, e.g. https://www.netflix.com/at-en/title/80180182
+```
+
+#### Triples or Quads
+
+Some RDF serializations don't support named graphs, such as Turtle and N-Triples.
+In some cases, it may be valuable to know whether or not an RDF document was serialized with such a format.
+If this was the case, the `triples` flag will be set to true on the resulting object:
+
+```javascript
+const { quads, triples } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
+console.log(triples); // If the document only supported triples, true in this case, since it returned Turtle.
+```
 
 ## License
 This software is written by [Ruben Taelman](http://rubensworks.net/).
