@@ -1,0 +1,98 @@
+{
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/rdf-dereference/^1.0.0/components/context.jsonld",
+	"https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-dereference/^1.0.0/components/context.jsonld",
+	"https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-dereference-http-parse/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-rdf-parse/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-abstract-mediatyped/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-n3/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-jsonld/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-rdfxml/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-html/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-html-rdfa/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-html-script/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-parse-xml-rdfa/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-combine-union/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-http/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-http-native/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-number/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-race/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/runner/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/core/^1.0.0/components/context.jsonld"
+
+  ],
+  "@id": "urn:comunica:my",
+  "@type": "RdfDereferencer",
+  "mediatorRdfDereference": {
+	"@id": "config-sets:config-default.json#mediatorRdfDereference",
+	"@type": "MediatorRace",
+	"cc:Mediator/bus": { "@id": "cbrd:Bus/RdfDereference" }
+  },
+  "dependencies": [
+    {
+      "@id": "config-sets:config-default.json#myRdfParserN3",
+      "@type": "ActorRdfParseN3",
+      "priorityScale": 1.0
+    },
+    {
+      "@id": "config-sets:config-default.json#myRdfParserJsonLd",
+      "@type": "ActorRdfParseJsonLd",
+      "priorityScale": 0.9,
+      "crpjl:Actor/RdfParse/JsonLd/mediatorHttp": {
+        "@id": "config-sets:config-default.json#mediatorHttp",
+        "@type": "MediatorNumberMin",
+        "field": "time",
+        "ignoreErrors": true,
+        "cc:Mediator/bus": { "@id": "cbh:Bus/Http" }
+      }
+    },
+    {
+      "@id": "config-sets:config-default.json#myRdfParserHtml",
+      "@type": "ActorRdfParseHtml",
+      "priorityScale": 0.8
+    },
+    {
+      "@id": "config-sets:config-default.json#myRdfParserRdfXml",
+      "@type": "ActorRdfParseRdfXml",
+      "priorityScale": 0.5
+    },
+    {
+      "@id": "config-sets:config-default.json#myRdfParserXmlRdfa",
+      "@type": "ActorRdfParseXmlRdfa",
+      "priorityScale": 0.5
+    },
+
+    {
+      "@id": "config-sets:config-default.json#myRdfParserHtmlRdfa",
+      "@type": "ActorRdfParseHtmlRdfa"
+    },
+    {
+      "@id": "config-sets:config-default.json#myRdfParserHtmlScript",
+      "@type": "ActorRdfParseHtmlScript",
+      "carphs:mediatorRdfParseMediatypes": { "@id": "config-sets:config-default.json#mediatorRdfParseMediatypes" },
+      "carphs:mediatorRdfParseHandle": { "@id": "config-sets:config-default.json#mediatorRdfParseHandle" }
+    },
+    {
+      "@id": "config-sets:http.json#myHttpFetcher",
+      "@type": "ActorHttpNative"
+    },
+	{
+	  "@id": "config-sets:config-default.json#myRdfDereferencer",
+	  "@type": "ActorRdfDereferenceHttpParse",
+	  "mediatorHttp": {
+	    "@id": "config-sets:config-default.json#mediatorHttp"
+	  },
+	  "mediatorRdfParseMediatypes": {
+	    "@id": "config-sets:config-default.json#mediatorRdfParseMediatypes",
+	    "@type": "MediatorCombineUnion",
+	    "cc:Mediator/bus": { "@id": "cbrp:Bus/RdfParse" },
+	    "cmcu:Mediator/CombineUnion/field": "mediaTypes"
+	  },
+	  "mediatorRdfParseHandle": {
+	    "@id": "config-sets:config-default.json#mediatorRdfParseHandle",
+	    "@type": "MediatorRace",
+	    "cc:Mediator/bus": { "@id": "cbrp:Bus/RdfParse" }
+	  }
+    }
+  ]
+}
