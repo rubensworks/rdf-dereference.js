@@ -18,6 +18,13 @@ function request(settings, func) {
     url: settings.url,
     responseUrl: settings.url,
   });
+  body.headers.usedmethod = settings.method;
+  body.headers.usedheaders = JSON.stringify(Object.keys(settings.headers)
+    .filter((k) => k.startsWith('_'))
+    .reduce((acc, k) => {
+      acc[k] = settings.headers[k];
+      return acc;
+    }, {}));
   setImmediate(() => func(body));
 
   return {

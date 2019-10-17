@@ -137,4 +137,49 @@ describe('dereferencer', () => {
         quad('http://example.org/', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://schema.org/Person'),
       ]);
   });
+
+  it('should return HTTP response headers', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
+    const out = await dereferencer.dereference('http://example.org/', { method: 'GET' });
+    expect(out.headers).toEqual({
+      'content-type': 'text/turtle',
+      "usedheaders": "{}",
+      'usedmethod': 'GET',
+    });
+  });
+
+  it('should pass custom HTTP headers', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
+    const out = await dereferencer.dereference('http://example.org/', { headers: { _a: 'A', _b: 'B' } });
+    expect(out.headers).toEqual({
+      'content-type': 'text/turtle',
+      'usedheaders':  "{\"_a\":\"A\",\"_b\":\"B\"}",
+      'usedmethod': 'GET',
+    });
+  });
+
+  it('should pass custom HTTP methods', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
+    const out = await dereferencer.dereference('http://example.org/', { method: 'POST' });
+    expect(out.headers).toEqual({
+      'content-type': 'text/turtle',
+      "usedheaders": "{}",
+      'usedmethod': 'POST',
+    });
+  });
 });

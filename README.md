@@ -107,7 +107,33 @@ const resultStream = store.match(namedNode('http://example.org/subject'));
 
 ### Advanced features
 
-#### Determining the final URL
+#### Input: Passing custom headers
+
+You can pass custom headers for the HTTP request via the options object:
+
+```javascript
+const { quads } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
+  headers: {
+    'Accept-Datetime': 'Thu, 31 May 2007 20:35:00 GMT',
+  },
+});
+```
+
+By default, the `GET` method will be used.
+
+#### Input: Setting the HTTP method
+
+You can define the HTTP method via the options object:
+
+```javascript
+const { quads } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
+  method: 'POST',
+});
+```
+
+By default, the `GET` method will be used.
+
+#### Output: Determining the final URL
 
 If dereferencing went through various redirects, it may be useful to determine the final URL.
 This can be done using the `url` field of the output object:
@@ -117,7 +143,16 @@ const { quads, url } = await rdfDereferencer.dereference('https://www.netflix.co
 console.log(url); // The final URL, e.g. https://www.netflix.com/at-en/title/80180182
 ```
 
-#### Triples or Quads
+#### Output: Response Headers
+
+This library will return the HTTP response headers as a hash:
+
+```javascript
+const { quads, headers } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
+console.log(headers); // Example: { 'content-length': '65701' }
+```
+
+#### Output: Triples or Quads
 
 Some RDF serializations don't support named graphs, such as Turtle and N-Triples.
 In some cases, it may be valuable to know whether or not an RDF document was serialized with such a format.

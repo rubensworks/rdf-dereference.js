@@ -19,11 +19,28 @@ export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad>  {
    * @param {string} url An HTTP or HTTPS URL.
    * @return {IActorRdfDereferenceOutput} The dereference output.
    */
-  public dereference(url: string): Promise<IActorRdfDereferenceOutput> {
+  public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorRdfDereferenceOutput> {
     // Delegate dereferencing to the mediator
-    return this.mediatorRdfDereference.mediate({ context: ActionContext({}), url });
+    return this.mediatorRdfDereference.mediate({
+      context: ActionContext({}),
+      headers: options.headers,
+      method: options.method,
+      url,
+    });
   }
 
+}
+
+export interface IDereferenceOptions {
+  /**
+   * Optional HTTP method to use.
+   * Defaults to GET.
+   */
+  method?: string;
+  /**
+   * Optional HTTP headers to pass.
+   */
+  headers?: {[key: string]: string};
 }
 
 export interface IRdfDerefencerArgs {
