@@ -2,7 +2,7 @@
   "@context": "https://linkedsoftwaredependencies.org/bundles/npm/rdf-dereference/^1.0.0/components/context.jsonld",
   "@id": "npmd:rdf-dereference",
   "@type": "Module",
-  "requireName": "rdf-dereference",
+  "requireName": "./lib/RdfDereferencer",
   "import": [
     "files-rd:components/RdfDereferencer.jsonld"
   ]
