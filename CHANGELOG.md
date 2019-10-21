@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.2.1"></a>
+## [v1.2.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.0...v1.2.1) - 2019-10-21
+
+### Fixed
+* [Avoid circular importing of parser](https://github.com/rubensworks/rdf-dereference.js/commit/64155c516bc2afcfdd1e40264635a7804ea8d543)
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.1.0...v1.2.0) - 2019-10-17
 
