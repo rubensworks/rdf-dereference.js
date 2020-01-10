@@ -15,6 +15,7 @@
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-combine-union/^1.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/bus-http/^1.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-http-native/^1.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-http-proxy/^1.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-number/^1.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/mediator-race/^1.0.0/components/context.jsonld",
     "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/runner/^1.0.0/components/context.jsonld",
@@ -71,6 +72,14 @@
       "@type": "ActorRdfParseHtmlScript",
       "carphs:mediatorRdfParseMediatypes": { "@id": "config-sets:config-default.json#mediatorRdfParseMediatypes" },
       "carphs:mediatorRdfParseHandle": { "@id": "config-sets:config-default.json#mediatorRdfParseHandle" }
+    },
+    {
+      "@id": "config-sets:http.json#myHttpProxy",
+      "@type": "ActorHttpProxy",
+      "cahp:Actor/Http/Proxy/mediatorHttp": {
+        "@id": "config-sets:config-default.json#mediatorHttp"
+      },
+      "beforeActor": "config-sets:http.json#myHttpFetcher"
     },
     {
       "@id": "config-sets:http.json#myHttpFetcher",
