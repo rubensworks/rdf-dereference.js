@@ -22,7 +22,7 @@ export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad>  {
   public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorRdfDereferenceOutput> {
     // Delegate dereferencing to the mediator
     return this.mediatorRdfDereference.mediate({
-      context: ActionContext({}),
+      context: ActionContext(options),
       headers: options.headers,
       method: options.method,
       url,
