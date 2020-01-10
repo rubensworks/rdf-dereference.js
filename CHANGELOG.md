@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.3.0"></a>
+## [v1.3.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.1...v1.3.0) - 2020-01-10
+
+### Added
+* [Pass options to Comunica's context](https://github.com/rubensworks/rdf-dereference.js/commit/a4628a8d238b978e70cd46fc419fb2b34774fcd1)
+
 <a name="v1.2.1"></a>
 ## [v1.2.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.0...v1.2.1) - 2019-10-21
 
