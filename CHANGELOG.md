@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.3.1"></a>
+## [v1.3.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.3.0...v1.3.1) - 2020-01-10
+
+### Added
+* [Allow HTTP proxies to be defined](https://github.com/rubensworks/rdf-dereference.js/commit/2b27f632ceed5b79062779ac0de4b430f622a8e6)
+
 <a name="v1.3.0"></a>
 ## [v1.3.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.1...v1.3.0) - 2020-01-10
 
