@@ -92,6 +92,21 @@ const { quads1 } = await rdfDereferencer.dereference('https://www.rubensworks.ne
 const { quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
 ```
 
+### Dereferencing a local file
+
+Similar as above, the `rdfDereferencer.dereference` method also accepts file paths.
+
+```javascript
+const { quads } = await rdfDereferencer.dereference('path/to/file.ttl', { localFiles: true });
+quads.on('data', (quad) => console.log(quad))
+     .on('error', (error) => console.error(error))
+     .on('end', () => console.log('All done!'));
+```
+
+Note that the `localFiles` flag MUST be enabled before local paths can be dereferenced for security reasons.
+
+This feature is not available when this package is used within a browser environment.
+
 ### Importing the resulting quads into a store
 
 These resulting quads can easily be stored in a [more convenient datastructure](http://rdf.js.org/stream-spec/#store-interface)
@@ -180,6 +195,13 @@ $ rdf-dereference https://www.rubensworks.net/
 {"subject":"https://www.rubensworks.net/","predicate":"http://xmlns.com/foaf/0.1/maker","object":"https://www.rubensworks.net/#me","graph":""},
 {"subject":"https://www.rubensworks.net/#me","predicate":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","object":"http://xmlns.com/foaf/0.1/Person","graph":""},
 {"subject":"https://www.rubensworks.net/#me","predicate":"http://xmlns.com/foaf/0.1/name","object":"\"Ruben Taelman\"","graph":""},
+...
+```
+
+After that, you can dereference local files, for which the content type will be identified by extension:
+
+```bash
+$ rdf-dereference path/to/file.ttl
 ...
 ```
 
