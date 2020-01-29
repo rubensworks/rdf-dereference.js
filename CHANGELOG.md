@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.4.0"></a>
+## [v1.4.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.1...v1.4.0) - 2020-01-29
+
+### Added
+* [Allow local file paths to be dereferenced, Closes #7](https://github.com/rubensworks/rdf-dereference.js/commit/f93040553eb565038f706ae25c5dbbf1fb3c998d)
+
 <a name="v1.3.1"></a>
 ## [v1.3.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.3.0...v1.3.1) - 2020-01-10
 
