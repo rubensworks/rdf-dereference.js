@@ -18,7 +18,7 @@ Usage:
   process.exit(1);
 }
 
-rdfDereferencer.dereference(args[0])
+rdfDereferencer.dereference(args[0], { localFiles: true })
   .then((out: IActorRdfDereferenceOutput) => {
     process.stdout.write('[');
     let first = true;

@@ -1,49 +1,34 @@
-import {IActionRdfDereference, IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
-import {ActionContext, Actor, IActorTest, Mediator} from "@comunica/core";
+import {IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
+import {join} from "path";
 import * as RDF from "rdf-js";
+import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
  */
-export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad>  {
-
-  public readonly mediatorRdfDereference: Mediator<Actor<IActionRdfDereference, IActorTest,
-    IActorRdfDereferenceOutput>, IActionRdfDereference, IActorTest, IActorRdfDereferenceOutput>;
-
-  constructor(args: IRdfDerefencerArgs) {
-    this.mediatorRdfDereference = args.mediatorRdfDereference;
-  }
+export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad> extends RdfDereferencerBase<Q> {
 
   /**
    * Dereference the given URL to an RDF stream.
-   * @param {string} url An HTTP or HTTPS URL.
+   * @param {string} url An HTTP(S) HTTPS URL, or a local file path.
+   *                     Local file paths are only allowed when options.localFiles is enabled.
+   * @param {IDereferenceOptions} options
    * @return {IActorRdfDereferenceOutput} The dereference output.
    */
   public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorRdfDereferenceOutput> {
-    // Delegate dereferencing to the mediator
-    return this.mediatorRdfDereference.mediate({
-      context: ActionContext(options),
-      headers: options.headers,
-      method: options.method,
-      url,
-    });
+    // For security reasons, only allow derefencing local files if the option is enabled.
+    // This is to avoid issues with packages that use this tool via a Web API,
+    // and don't want to expose access to their local files.
+    if (!url.startsWith('http')) {
+      if (!options.localFiles) {
+        return Promise.reject(
+          new Error('Tried to dereference a local file without enabling localFiles option: ' + url));
+      } else if (!url.startsWith('/')) {
+        url = join(process.cwd(), url);
+      }
+    }
+
+    return super.dereference(url, options);
   }
 
-}
-
-export interface IDereferenceOptions {
-  /**
-   * Optional HTTP method to use.
-   * Defaults to GET.
-   */
-  method?: string;
-  /**
-   * Optional HTTP headers to pass.
-   */
-  headers?: {[key: string]: string};
-}
-
-export interface IRdfDerefencerArgs {
-  mediatorRdfDereference: Mediator<Actor<IActionRdfDereference, IActorTest,
-    IActorRdfDereferenceOutput>, IActionRdfDereference, IActorTest, IActorRdfDereferenceOutput>;
 }

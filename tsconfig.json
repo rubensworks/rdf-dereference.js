@@ -18,6 +18,7 @@
   },
   "include": [
     "index.ts",
+    "index-browser.ts",
     "lib/**/*",
     "bin/**/*",
     "perf/**/*",

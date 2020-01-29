@@ -1,6 +1,7 @@
 import "jest-rdf";
 const arrayifyStream = require('arrayify-stream');
 const quad = require('rdf-quad');
+import {join} from "path";
 import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
 
@@ -181,5 +182,36 @@ describe('dereferencer', () => {
       "usedheaders": "{}",
       'usedmethod': 'POST',
     });
+  });
+
+  it('should handle relative local .ttl files', async () => {
+    const out = await dereferencer.dereference('test/assets/example.ttl', { localFiles: true });
+    expect(out.triples).toBeTruthy();
+    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
+    return expect(arrayifyStream(out.quads)).resolves.toBeRdfIsomorphic([
+      quad(out.url, 'http://ex.org/p', 'http://ex.org/o1'),
+      quad(out.url, 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
+  });
+
+  it('should error on relative local .ttl files without localFiles flag', async () => {
+    await expect(dereferencer.dereference('test/assets/example.ttl')).rejects.toThrow(
+      new Error('Tried to dereference a local file without enabling localFiles option: test/assets/example.ttl'));
+  });
+
+  it('should handle absolute local .ttl files', async () => {
+    const out = await dereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'), { localFiles: true });
+    expect(out.triples).toBeTruthy();
+    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
+    return expect(arrayifyStream(out.quads)).resolves.toBeRdfIsomorphic([
+      quad(out.url, 'http://ex.org/p', 'http://ex.org/o1'),
+      quad(out.url, 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
+  });
+
+  it('should error on absolute local .ttl files without localFiles flag', async () => {
+    await expect(dereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'))).rejects.toThrow(
+      new Error('Tried to dereference a local file without enabling localFiles option: '
+        + join(process.cwd(), 'test/assets/example.ttl')));
   });
 });
