@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.4.1"></a>
+## [v1.4.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.4.0...v1.4.1) - 2020-03-09
+
+### Fixed
+* [Add missing bus-init actor, Closes #9](https://github.com/rubensworks/rdf-dereference.js/commit/29999da93d6778fe5aa0a233f6466909bc6aae74)
+
 <a name="v1.4.0"></a>
 ## [v1.4.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.2.1...v1.4.0) - 2020-01-29
 
