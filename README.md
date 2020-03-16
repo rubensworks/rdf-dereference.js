@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/rubensworks/rdf-dereference.js.svg?branch=master)](https://travis-ci.org/rubensworks/rdf-dereference.js)
 [![Coverage Status](https://coveralls.io/repos/github/rubensworks/rdf-dereference.js/badge.svg?branch=master)](https://coveralls.io/github/rubensworks/rdf-dereference.js?branch=master)
-[![npm version](https://badge.fury.io/js/rdf-dereference.svg)](https://www.npmjs.com/package/rdf-dereference) [![Greenkeeper badge](https://badges.greenkeeper.io/rubensworks/rdf-dereference.js.svg)](https://greenkeeper.io/)
-
+[![npm version](https://badge.fury.io/js/rdf-dereference.svg)](https://www.npmjs.com/package/rdf-dereference)
 This library dereferences URLs to get its RDF contents.
 
 This tool is useful in situations where you have a URL,
