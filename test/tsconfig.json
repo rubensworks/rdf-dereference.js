@@ -5,6 +5,7 @@
     "strictFunctionTypes": false,
     "lib": [
       "es6"
-    ]
+    ],
+    "target": "es6"
   }
 }
