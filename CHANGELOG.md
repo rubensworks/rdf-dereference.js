@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.5.0"></a>
+## [v1.5.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.3.1...v1.5.0) - 2020-04-18
+
+### Changed
+* [Update dependencies to support JSON-LD 1.1](https://github.com/rubensworks/rdf-dereference.js/commit/4415dc8cb9baeca33cfa89a4a2cb04210da307e5)
+
 <a name="v1.4.1"></a>
 ## [v1.4.1](https://github.com/rubensworks/rdf-dereference.js/compare/v1.4.0...v1.4.1) - 2020-03-09
 
