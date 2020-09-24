@@ -114,10 +114,13 @@ using tools such as [`rdf-store-stream`](https://www.npmjs.com/package/rdf-store
 
 ```javascript
 import {storeStream} from "rdf-store-stream";
+import {DataFactory} from "rdf-data-factory";
 
+const dataFactory = new DataFactory();
 const store = await storeStream(quads);
 
-const resultStream = store.match(namedNode('http://example.org/subject'));
+// Now you can do quad pattern queries over the stream, such as getting all triples having 'http://example.org/subject' as subject.
+const resultStream = store.match(dataFactory.namedNode('http://example.org/subject'));
 ```
 
 ### Advanced features
