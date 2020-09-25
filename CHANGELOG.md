@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.6.0"></a>
+## [v1.6.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.4.1...v1.6.0) - 2020-09-25
+
+### Fixed
+* [Expose typings, Closes #20](https://github.com/rubensworks/rdf-dereference.js/commit/4ab8bdd559be2d41db21814793963dc17567b23e)
+
+### Changed
+* [Update to Comunica 1.16](https://github.com/rubensworks/rdf-dereference.js/commit/3771216274e929a1a10c42950248611b738d8a90)
+
 <a name="v1.5.0"></a>
 ## [v1.5.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.3.1...v1.5.0) - 2020-04-18
 
