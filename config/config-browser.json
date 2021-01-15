@@ -25,22 +25,22 @@
   "@id": "urn:comunica:my",
   "@type": "RdfDereferencer",
   "mediatorRdfDereference": {
-	"@id": "config-sets:config-default.json#mediatorRdfDereference",
+	"@id": "config:mediatorRdfDereference",
 	"@type": "MediatorRace",
 	"cc:Mediator/bus": { "@id": "cbrd:Bus/RdfDereference" }
   },
   "dependencies": [
     {
-      "@id": "config-sets:config-default.json#myRdfParserN3",
+      "@id": "config:myRdfParserN3",
       "@type": "ActorRdfParseN3",
       "priorityScale": 1.0
     },
     {
-      "@id": "config-sets:config-default.json#myRdfParserJsonLd",
+      "@id": "config:myRdfParserJsonLd",
       "@type": "ActorRdfParseJsonLd",
       "priorityScale": 0.9,
       "crpjl:Actor/RdfParse/JsonLd/mediatorHttp": {
-        "@id": "config-sets:config-default.json#mediatorHttp",
+        "@id": "config:mediatorHttp",
         "@type": "MediatorNumberMin",
         "field": "time",
         "ignoreErrors": true,
@@ -48,57 +48,57 @@
       }
     },
     {
-      "@id": "config-sets:config-default.json#myRdfParserHtml",
+      "@id": "config:myRdfParserHtml",
       "@type": "ActorRdfParseHtml",
       "priorityScale": 0.8
     },
     {
-      "@id": "config-sets:config-default.json#myRdfParserRdfXml",
+      "@id": "config:myRdfParserRdfXml",
       "@type": "ActorRdfParseRdfXml",
       "priorityScale": 0.5
     },
     {
-      "@id": "config-sets:config-default.json#myRdfParserXmlRdfa",
+      "@id": "config:myRdfParserXmlRdfa",
       "@type": "ActorRdfParseXmlRdfa",
       "priorityScale": 0.5
     },
 
     {
-      "@id": "config-sets:config-default.json#myRdfParserHtmlRdfa",
+      "@id": "config:myRdfParserHtmlRdfa",
       "@type": "ActorRdfParseHtmlRdfa"
     },
     {
-      "@id": "config-sets:config-default.json#myRdfParserHtmlScript",
+      "@id": "config:myRdfParserHtmlScript",
       "@type": "ActorRdfParseHtmlScript",
-      "carphs:mediatorRdfParseMediatypes": { "@id": "config-sets:config-default.json#mediatorRdfParseMediatypes" },
-      "carphs:mediatorRdfParseHandle": { "@id": "config-sets:config-default.json#mediatorRdfParseHandle" }
+      "carphs:mediatorRdfParseMediatypes": { "@id": "config:mediatorRdfParseMediatypes" },
+      "carphs:mediatorRdfParseHandle": { "@id": "config:mediatorRdfParseHandle" }
     },
     {
-      "@id": "config-sets:http.json#myHttpProxy",
+      "@id": "config:myHttpProxy",
       "@type": "ActorHttpProxy",
       "cahp:Actor/Http/Proxy/mediatorHttp": {
-        "@id": "config-sets:config-default.json#mediatorHttp"
+        "@id": "config:mediatorHttp"
       },
-      "beforeActor": "config-sets:http.json#myHttpFetcher"
+      "beforeActor": "config:myHttpFetcher"
     },
     {
-      "@id": "config-sets:http.json#myHttpFetcher",
+      "@id": "config:myHttpFetcher",
       "@type": "ActorHttpNative"
     },
 	{
-	  "@id": "config-sets:config-default.json#myRdfDereferencerHttp",
+	  "@id": "config:myRdfDereferencerHttp",
 	  "@type": "ActorRdfDereferenceHttpParse",
 	  "mediatorHttp": {
-	    "@id": "config-sets:config-default.json#mediatorHttp"
+	    "@id": "config:mediatorHttp"
 	  },
 	  "mediatorRdfParseMediatypes": {
-	    "@id": "config-sets:config-default.json#mediatorRdfParseMediatypes",
+	    "@id": "config:mediatorRdfParseMediatypes",
 	    "@type": "MediatorCombineUnion",
 	    "cc:Mediator/bus": { "@id": "cbrp:Bus/RdfParse" },
 	    "cmcu:Mediator/CombineUnion/field": "mediaTypes"
 	  },
 	  "mediatorRdfParseHandle": {
-	    "@id": "config-sets:config-default.json#mediatorRdfParseHandle",
+	    "@id": "config:mediatorRdfParseHandle",
 	    "@type": "MediatorRace",
 	    "cc:Mediator/bus": { "@id": "cbrp:Bus/RdfParse" }
 	  }

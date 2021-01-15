@@ -10,10 +10,10 @@
   ],
   "dependencies": [
     {
-      "@id": "config-sets:config-default.json#myRdfDereferencerFile",
+      "@id": "config:myRdfDereferencerFile",
       "@type": "ActorRdfDereferenceFile",
       "cardf:mediatorRdfParse": {
-        "@id": "config-sets:config-default.json#mediatorRdfParseHandle"
+        "@id": "config:mediatorRdfParseHandle"
       }
     }
   ]
