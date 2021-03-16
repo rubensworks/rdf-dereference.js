@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.8.0"></a>
+## [v1.8.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.7.0...v1.8.0) - 2021-03-16
+
+### Added
+* [Add Microdata to RDF parser, Closes #26](https://github.com/rubensworks/rdf-dereference.js/commit/0adce4b27757dede9c3decef0c29f471eda9f962)
+
 <a name="v1.7.0"></a>
 ## [v1.7.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.6.0...v1.7.0) - 2021-01-15
 
