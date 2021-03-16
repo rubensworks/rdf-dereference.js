@@ -98,6 +98,7 @@
     "@comunica/actor-rdf-dereference-file": "~1.19.0",
     "@comunica/actor-rdf-dereference-http-parse": "~1.19.0",
     "@comunica/actor-rdf-parse-html": "~1.19.0",
+    "@comunica/actor-rdf-parse-html-microdata": "~1.19.0",
     "@comunica/actor-rdf-parse-html-rdfa": "~1.19.0",
     "@comunica/actor-rdf-parse-html-script": "~1.19.0",
     "@comunica/actor-rdf-parse-jsonld": "~1.19.0",
