@@ -1,6 +1,6 @@
 import {IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
 import {join} from "path";
-import * as RDF from "rdf-js";
+import * as RDF from "@rdfjs/types";
 import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
 
 /**

@@ -1,4 +1,4 @@
-import * as RDF from "rdf-js";
+import * as RDF from "@rdfjs/types";
 import {RdfDereferencerBase} from "./RdfDereferencerBase";
 
 /**

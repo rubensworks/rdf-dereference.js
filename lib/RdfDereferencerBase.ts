@@ -1,6 +1,6 @@
 import {IActionRdfDereference, IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
 import {ActionContext, Actor, IActorTest, Mediator} from "@comunica/core";
-import * as RDF from "rdf-js";
+import * as RDF from "@rdfjs/types";
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.

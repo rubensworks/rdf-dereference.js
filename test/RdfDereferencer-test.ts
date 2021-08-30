@@ -4,12 +4,36 @@ const quad = require('rdf-quad');
 import {join} from "path";
 import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
+import 'cross-fetch';
 
 import dereferencer from "..";
+import { mocked } from 'ts-jest/utils';
 
-const mockSetup = require('./__mocks__/follow-redirects').mockSetup;
+// Mock fetch
+let fetchOut: any;
+(<any> global).fetch = jest.fn((input: any, init: any) => {
+  return fetchOut;
+});
+
+const mockSetup = (options: { statusCode?: number, error?: boolean, body?: Readable, headers?: any, url?: string }) => {
+  if (options.error) {
+    fetchOut = Promise.reject(new Error('fetch error'));
+  } else {
+    fetchOut = Promise.resolve({
+      url: options.url || 'http://example.org/',
+      status: options.statusCode || 200,
+      body: options.body,
+      headers: new Headers(options.headers || {}),
+    });
+  }
+};
+mockSetup({ statusCode: 200 });
 
 describe('dereferencer', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be an RdfDereferencer instance', () => {
     expect(dereferencer).toBeInstanceOf(RdfDereferencer);
   });
@@ -17,13 +41,13 @@ describe('dereferencer', () => {
   it('should error on 404 responses', async () => {
     mockSetup({ statusCode: 404 });
     return expect(dereferencer.dereference('http://example.org/')).rejects
-      .toThrow(new Error('Could not retrieve http://example.org/ (404: unknown error)'));
+      .toThrow(new Error('Could not retrieve http://example.org/ (HTTP status 404):\nempty response'));
   });
 
   it('should error on errors', async () => {
     mockSetup({ error: true });
     return expect(dereferencer.dereference('http://example.org/')).rejects
-      .toThrow(new Error('Request Error!'));
+      .toThrow(new Error('fetch error'));
   });
 
   it('should handle text/turtle responses', async () => {
@@ -42,29 +66,13 @@ describe('dereferencer', () => {
     ]);
   });
 
-  it('should handle text/turtle responses for https', async () => {
-    const body = new Readable();
-    body.push(`
-<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
-`);
-    body.push(null);
-    mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
-    const out = await dereferencer.dereference('https://example.org/');
-    expect(out.triples).toBeTruthy();
-    expect(out.url).toEqual('https://example.org/');
-    return expect(arrayifyStream(out.quads)).resolves.toBeRdfIsomorphic([
-      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
-      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
-    ]);
-  });
-
   it('should handle text/turtle responses by extension', async () => {
     const body = new Readable();
     body.push(`
 <http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
 `);
     body.push(null);
-    mockSetup({ statusCode: 200, body });
+    mockSetup({ statusCode: 200, body, url: 'http://example.org/bla.ttl' });
     const out = await dereferencer.dereference('http://example.org/bla.ttl');
     expect(out.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/bla.ttl');
@@ -83,7 +91,7 @@ describe('dereferencer', () => {
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle', 'content-location': 'http://example.org/bla' } });
     const out = await dereferencer.dereference('http://example.org/');
     expect(out.triples).toBeTruthy();
-    expect(out.url).toEqual('http://example.org/bla');
+    expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.quads)).resolves.toBeRdfIsomorphic([
       quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
       quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
@@ -147,10 +155,13 @@ describe('dereferencer', () => {
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
     const out = await dereferencer.dereference('http://example.org/', { method: 'GET' });
+    expect(fetch).toHaveBeenCalledWith('http://example.org/', {
+      agent: expect.anything(),
+      headers: expect.anything(),
+      method: 'GET',
+    });
     expect(out.headers).toEqual({
       'content-type': 'text/turtle',
-      "usedheaders": "{}",
-      'usedmethod': 'GET',
     });
   });
 
@@ -162,10 +173,15 @@ describe('dereferencer', () => {
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
     const out = await dereferencer.dereference('http://example.org/', { headers: { _a: 'A', _b: 'B' } });
+    expect(fetch).toHaveBeenCalledWith('http://example.org/', {
+      agent: expect.anything(),
+      headers: expect.anything(),
+      method: undefined,
+    });
+    expect((<any> mocked(fetch).mock.calls[0][1].headers).get('_a')).toEqual('A');
+    expect((<any> mocked(fetch).mock.calls[0][1].headers).get('_b')).toEqual('B');
     expect(out.headers).toEqual({
       'content-type': 'text/turtle',
-      'usedheaders':  "{\"_a\":\"A\",\"_b\":\"B\"}",
-      'usedmethod': 'GET',
     });
   });
 
@@ -177,10 +193,13 @@ describe('dereferencer', () => {
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
     const out = await dereferencer.dereference('http://example.org/', { method: 'POST' });
+    expect(fetch).toHaveBeenCalledWith('http://example.org/', {
+      agent: expect.anything(),
+      headers: expect.anything(),
+      method: 'POST',
+    });
     expect(out.headers).toEqual({
       'content-type': 'text/turtle',
-      "usedheaders": "{}",
-      'usedmethod': 'POST',
     });
   });
 

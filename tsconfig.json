@@ -4,10 +4,11 @@
     "module": "commonjs",
     "lib": [
       "es6",
+      "es2019",
       "esnext.asynciterable",
       "dom"
     ],
-    "target": "es6",
+    "target": "es2017",
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
