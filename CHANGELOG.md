@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v1.9.0"></a>
+## [v1.9.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.8.0...v1.9.0) - 2021-08-30
+
+### Changed
+* [Update to Comunica 1.22 and @rdfjs/types](https://github.com/rubensworks/rdf-dereference.js/commit/5a17487e87a35ce30b47e9b7b118268c0d7660c0)
+
 <a name="v1.8.0"></a>
 ## [v1.8.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.7.0...v1.8.0) - 2021-03-16
 
