@@ -43,7 +43,7 @@
   ],
   "devDependencies": {
     "@comunica/runner": "^1.22.0",
-    "@types/jest": "^26.0.0",
+    "@types/jest": "^27.0.0",
     "@types/n3": "^1.10.3",
     "arrayify-stream": "^1.0.0",
     "coveralls": "^3.0.0",
