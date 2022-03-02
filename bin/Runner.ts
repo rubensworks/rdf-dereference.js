@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import {IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference/lib/ActorRdfDereference";
+import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import {quadToStringQuad} from "rdf-string";
+import * as RDF from '@rdfjs/types';
 import rdfDereferencer from "..";
 
 // tslint:disable:no-console
@@ -19,10 +20,10 @@ Usage:
 }
 
 rdfDereferencer.dereference(args[0], { localFiles: true })
-  .then((out: IActorRdfDereferenceOutput) => {
+  .then((out: IActorDereferenceRdfOutput) => {
     process.stdout.write('[');
     let first = true;
-    out.quads.on('data', (quad) => {
+    out.data.on('data', (quad: RDF.Quad) => {
       if (!first) {
         process.stdout.write(',\n');
       } else {
@@ -31,7 +32,7 @@ rdfDereferencer.dereference(args[0], { localFiles: true })
       first = false;
       process.stdout.write(JSON.stringify(quadToStringQuad(quad)));
     });
-    out.quads.on('end', () => console.log('\n]'));
+    out.data.on('end', () => console.log('\n]'));
   })
   .catch((error: Error) => {
     console.error(error);

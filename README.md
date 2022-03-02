@@ -77,8 +77,8 @@ The `rdfDereferencer.dereference` method accepts an URL,
 and outputs a promise resolving to an object containing a quad stream.
 
 ```javascript
-const { quads } = await rdfDereferencer.dereference('http://dbpedia.org/page/12_Monkeys');
-quads.on('data', (quad) => console.log(quad))
+const { data } = await rdfDereferencer.dereference('http://dbpedia.org/page/12_Monkeys');
+data.on('data', (quad) => console.log(quad))
      .on('error', (error) => console.error(error))
      .on('end', () => console.log('All done!'));
 ```
@@ -90,8 +90,8 @@ Dereferencing works with any kind of RDF serialization,
 even HTML documents containing RDFa and JSON-LD:
 
 ```javascript
-const { quads1 } = await rdfDereferencer.dereference('https://www.rubensworks.net/');
-const { quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
+const { data: quads1 } = await rdfDereferencer.dereference('https://www.rubensworks.net/');
+const { data: quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
 ```
 
 ### Dereferencing a local file
@@ -99,10 +99,10 @@ const { quads2 } = await rdfDereferencer.dereference('https://www.netflix.com/ti
 Similar as above, the `rdfDereferencer.dereference` method also accepts file paths.
 
 ```javascript
-const { quads } = await rdfDereferencer.dereference('path/to/file.ttl', { localFiles: true });
-quads.on('data', (quad) => console.log(quad))
-     .on('error', (error) => console.error(error))
-     .on('end', () => console.log('All done!'));
+const { data } = await rdfDereferencer.dereference('path/to/file.ttl', { localFiles: true });
+data.on('data', (quad) => console.log(quad))
+    .on('error', (error) => console.error(error))
+    .on('end', () => console.log('All done!'));
 ```
 
 Note that the `localFiles` flag MUST be enabled before local paths can be dereferenced for security reasons.
@@ -132,7 +132,7 @@ const resultStream = store.match(dataFactory.namedNode('http://example.org/subje
 You can pass custom headers for the HTTP request via the options object:
 
 ```javascript
-const { quads } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
+const { data } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
   headers: {
     'Accept-Datetime': 'Thu, 31 May 2007 20:35:00 GMT',
   },
@@ -146,7 +146,7 @@ By default, the `GET` method will be used.
 You can define the HTTP method via the options object:
 
 ```javascript
-const { quads } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
+const { data } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
   method: 'POST',
 });
 ```
@@ -159,17 +159,17 @@ If dereferencing went through various redirects, it may be useful to determine t
 This can be done using the `url` field of the output object:
 
 ```javascript
-const { quads, url } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
+const { data, url } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182');
 console.log(url); // The final URL, e.g. https://www.netflix.com/at-en/title/80180182
 ```
 
 #### Output: Response Headers
 
-This library will return the HTTP response headers as a hash:
+This library will return the HTTP response headers as a [Headers object](https://developer.mozilla.org/en-US/docs/Web/API/Headers):
 
 ```javascript
-const { quads, headers } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
-console.log(headers); // Example: { 'content-length': '65701' }
+const { data, headers } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
+console.log(headers); // Example: new Headers({ 'content-length': '65701' })
 ```
 
 #### Output: Triples or Quads

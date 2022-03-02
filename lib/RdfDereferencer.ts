@@ -1,4 +1,4 @@
-import {IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
+import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import {join} from "path";
 import * as RDF from "@rdfjs/types";
 import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
@@ -15,7 +15,7 @@ export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad> extends RdfDeref
    * @param {IDereferenceOptions} options
    * @return {IActorRdfDereferenceOutput} The dereference output.
    */
-  public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorRdfDereferenceOutput> {
+  public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorDereferenceRdfOutput> {
     // For security reasons, only allow derefencing local files if the option is enabled.
     // This is to avoid issues with packages that use this tool via a Web API,
     // and don't want to expose access to their local files.

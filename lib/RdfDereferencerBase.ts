@@ -1,17 +1,17 @@
-import {IActionRdfDereference, IActorRdfDereferenceOutput} from "@comunica/bus-rdf-dereference";
-import {ActionContext, Actor, IActorTest, Mediator} from "@comunica/core";
+import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
+import { ActionContext, Actor } from "@comunica/core";
 import * as RDF from "@rdfjs/types";
+import { MediatorDereferenceRdf } from '@comunica/bus-dereference-rdf';
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
  */
 export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
 
-  public readonly mediatorRdfDereference: Mediator<Actor<IActionRdfDereference, IActorTest,
-    IActorRdfDereferenceOutput>, IActionRdfDereference, IActorTest, IActorRdfDereferenceOutput>;
+  public readonly mediatorDereferenceRdf: MediatorDereferenceRdf;
 
   constructor(args: IRdfDerefencerArgs) {
-    this.mediatorRdfDereference = args.mediatorRdfDereference;
+    this.mediatorDereferenceRdf = args.mediatorDereferenceRdf;
   }
 
   /**
@@ -20,11 +20,11 @@ export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
    * @param {IDereferenceOptions} options
    * @return {IActorRdfDereferenceOutput} The dereference output.
    */
-  public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorRdfDereferenceOutput> {
+  public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorDereferenceRdfOutput> {
     // Delegate dereferencing to the mediator
-    return this.mediatorRdfDereference.mediate({
-      context: ActionContext(options),
-      headers: options.headers,
+    return this.mediatorDereferenceRdf.mediate({
+      context: new ActionContext(options),
+      headers: new Headers(options.headers),
       method: options.method,
       url,
     });
@@ -50,6 +50,6 @@ export interface IDereferenceOptions {
 }
 
 export interface IRdfDerefencerArgs {
-  mediatorRdfDereference: Mediator<Actor<IActionRdfDereference, IActorTest,
-    IActorRdfDereferenceOutput>, IActionRdfDereference, IActorTest, IActorRdfDereferenceOutput>;
+  mediatorDereferenceRdf: MediatorDereferenceRdf;
+  actors: Actor<any, any, any>[];
 }

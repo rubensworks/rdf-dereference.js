@@ -1,20 +1,18 @@
 {
   "@context": [
     "https://linkedsoftwaredependencies.org/bundles/npm/rdf-dereference/^1.0.0/components/context.jsonld",
-    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-rdf-dereference-file/^1.0.0/components/context.jsonld"
+    "https://linkedsoftwaredependencies.org/bundles/npm/@comunica/actor-dereference-file/^2.0.0/components/context.jsonld"
 
   ],
-  "@id": "urn:comunica:my",
   "import": [
-    "files-rd:config/config-browser.json"
+    "rd:config/config-browser.json"
   ],
-  "dependencies": [
+  "@id": "urn:comunica:default:Runner",
+  "@type": "RdfDereferencer",
+  "actors": [
     {
-      "@id": "config:myRdfDereferencerFile",
-      "@type": "ActorRdfDereferenceFile",
-      "cardf:mediatorRdfParse": {
-        "@id": "config:mediatorRdfParseHandle"
-      }
+      "@id": "urn:comunica:default:dereference/actors#file",
+      "@type": "ActorDereferenceFile"
     }
   ]
 }
