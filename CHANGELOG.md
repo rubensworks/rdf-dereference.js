@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.9.0...v2.0.0) - 2022-03-02
+
+### Breaking changes
+* The `dereference` method now returns the resulting quads in a the `data` field instead of `quads`.
+* The `dereference` method now returns an optional metadata field that can contain the `triples` field.
+* Returned headers now follow the [Headers API from the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Headers).
+
+### Changed
+* [Update to Comunica 2](https://github.com/rubensworks/rdf-dereference.js/commit/eac51293787d4d0ff81c15606ba9f3607e987feb)
+
 <a name="v1.9.0"></a>
 ## [v1.9.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.8.0...v1.9.0) - 2021-08-30
 

@@ -179,8 +179,8 @@ In some cases, it may be valuable to know whether or not an RDF document was ser
 If this was the case, the `triples` flag will be set to true on the resulting object:
 
 ```javascript
-const { quads, triples } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
-console.log(triples); // If the document only supported triples, true in this case, since it returned Turtle.
+const { quads, metadata } = await rdfDereferencer.dereference('https://ruben.verborgh.org/profile/');
+console.log(metadata.triples); // If the document only supported triples, true in this case, since it returned Turtle.
 ```
 
 ### Command line usage
