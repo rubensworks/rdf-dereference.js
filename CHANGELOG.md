@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.0.1"></a>
+## [v2.0.1](https://github.com/rubensworks/rdf-dereference.js/compare/v2.0.0...v2.0.1) - 2022-11-09
+
+### Fixed
+* [Include source map files in packed files](https://github.com/rubensworks/rdf-dereference.js/commit/f343a6aaff8fa75e764eaf146994e333b89a610f)
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v1.9.0...v2.0.0) - 2022-03-02
 
