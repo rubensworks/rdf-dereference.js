@@ -228,6 +228,16 @@ describe('dereferencer', () => {
     ]);
   });
 
+  it('should handle absolute local .shaclc files', async () => {
+    const out = await dereferencer.dereference(join(process.cwd(), 'test/assets/example.shaclc'), { localFiles: true });
+    expect(out.metadata.triples).toBeTruthy();
+    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.shaclc'));
+    return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
+      quad("http://localhost:3002/ContactsShape#ContactsShape", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/ns/shacl#NodeShape"),
+      quad("http://localhost:3002/ContactsShape", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/2002/07/owl#Ontology"),
+    ]);
+  });
+
   it('should error on absolute local .ttl files without localFiles flag', async () => {
     await expect(dereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'))).rejects.toThrow(
       new Error('Tried to dereference a local file without enabling localFiles option: '

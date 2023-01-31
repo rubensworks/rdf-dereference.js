@@ -1,0 +1,6 @@
+BASE <http://localhost:3002/ContactsShape>
+PREFIX cont: <http://localhost:3002/ContactsShape#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+shape cont:ContactsShape {
+}

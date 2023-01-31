@@ -29,6 +29,8 @@ The following RDF serializations are supported:
 | [RDFa](https://www.w3.org/TR/rdfa-in-html/) and script RDF data tags [HTML](https://html.spec.whatwg.org/multipage/)/[XHTML](https://www.w3.org/TR/xhtml-rdfa/) | `text/html`, `application/xhtml+xml` | `.html`, `.htm`, `.xhtml`, `.xht` |
 | [Microdata](https://w3c.github.io/microdata-rdf/) | `text/html`, `application/xhtml+xml` | `.html`, `.htm`, `.xhtml`, `.xht` |
 | [RDFa](https://www.w3.org/TR/2008/REC-SVGTiny12-20081222/metadata.html#MetadataAttributes) in [SVG](https://www.w3.org/TR/SVGTiny12/)/[XML](https://html.spec.whatwg.org/multipage/) | `image/svg+xml`,`application/xml` | `.xml`, `.svg`, `.svgz` |
+| [SHACL Compact Syntax](https://w3c.github.io/shacl/shacl-compact-syntax/) | `text/shaclc` | `.shaclc`, `.shc` |
+| [Extended SHACL Compact Syntax](https://github.com/jeswr/shaclcjs#extended-shacl-compact-syntax) | `text/shaclc-ext` | `.shaclce`, `.shce` |
 
 Internally, this library makes use of RDF parsers from the [Comunica framework](https://github.com/comunica/comunica),
 which enable streaming processing of RDF.
@@ -40,6 +42,7 @@ Internally, the following fully spec-compliant parsers are used:
 * [microdata-rdf-streaming-parser.js](https://github.com/rubensworks/microdata-rdf-streaming-parser.js)
 * [rdfa-streaming-parser.js](https://github.com/rubensworks/rdfa-streaming-parser.js)
 * [rdfxml-streaming-parser.js](https://github.com/rdfjs/rdfxml-streaming-parser.js)
+* [shaclcjs](https://github.com/jeswr/shaclcjs)
 
 _If you need something more low-level with more control, have a look at [`rdf-parse`](https://github.com/rubensworks/rdf-parse.js#readme)._
 
