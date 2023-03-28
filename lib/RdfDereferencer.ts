@@ -1,5 +1,6 @@
 import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import {join} from "path";
+import process = require("process");
 import * as RDF from "@rdfjs/types";
 import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
 

@@ -122,6 +122,7 @@
     "@comunica/mediator-number": "^2.0.1",
     "@comunica/mediator-race": "^2.0.1",
     "@rdfjs/types": "*",
+    "process": "^0.11.10",
     "rdf-string": "^1.6.0",
     "stream-to-string": "^1.2.0"
   },
