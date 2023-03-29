@@ -22,7 +22,8 @@
     "member-ordering": [true, {
       "order": "fields-first"
     }],
-    "forin": false
+    "forin": false,
+    "no-var-requires": false
   },
   "rulesDirectory": []
 }

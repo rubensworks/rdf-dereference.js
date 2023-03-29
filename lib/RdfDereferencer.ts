@@ -2,6 +2,7 @@ import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import {join} from "path";
 import * as RDF from "@rdfjs/types";
 import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
+const process = require("process/");
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
