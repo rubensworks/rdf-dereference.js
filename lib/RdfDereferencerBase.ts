@@ -2,6 +2,7 @@ import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import { ActionContext, Actor } from "@comunica/core";
 import * as RDF from "@rdfjs/types";
 import { MediatorDereferenceRdf } from '@comunica/bus-dereference-rdf';
+import { KeysHttp } from '@comunica/context-entries';
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
@@ -21,9 +22,10 @@ export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
    * @return {IActorRdfDereferenceOutput} The dereference output.
    */
   public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorDereferenceRdfOutput> {
+    const context = new ActionContext(options);
     // Delegate dereferencing to the mediator
     return this.mediatorDereferenceRdf.mediate({
-      context: new ActionContext(options),
+      context: typeof options.fetch === 'function' ? context.setDefault(KeysHttp.fetch, options.fetch) : context,
       headers: new Headers(options.headers),
       method: options.method,
       url,
@@ -47,6 +49,10 @@ export interface IDereferenceOptions {
    * This is not possible in browser environments.
    */
   localFiles?: boolean;
+  /**
+   * The fetch function to use.
+   */
+  fetch?: typeof fetch;
 }
 
 export interface IRdfDerefencerArgs {

@@ -15,11 +15,11 @@ let fetchOut: any;
   return fetchOut;
 });
 
-const mockSetup = (options: { statusCode?: number, error?: boolean, body?: Readable, headers?: any, url?: string }) => {
+const getMock = (options: { statusCode?: number, error?: boolean, body?: Readable, headers?: any, url?: string }) => {
   if (options.error) {
-    fetchOut = Promise.reject(new Error('fetch error'));
+    return Promise.reject(new Error('fetch error'));
   } else {
-    fetchOut = Promise.resolve({
+    return Promise.resolve({
       url: options.url || 'http://example.org/',
       status: options.statusCode || 200,
       body: options.body,
@@ -27,6 +27,11 @@ const mockSetup = (options: { statusCode?: number, error?: boolean, body?: Reada
     });
   }
 };
+
+const mockSetup = (...args: Parameters<typeof getMock>) => {
+  fetchOut = getMock(...args);
+};
+
 mockSetup({ statusCode: 200 });
 
 describe('dereferencer', () => {
@@ -58,6 +63,24 @@ describe('dereferencer', () => {
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
     const out = await dereferencer.dereference('http://example.org/');
+    expect(out.metadata.triples).toBeTruthy();
+    expect(out.url).toEqual('http://example.org/');
+    return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
+  });
+
+  it('should use custom fetch function when provided', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+
+    const myFetch: typeof fetch = async (url) => getMock({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } }) as any;
+
+    const out = await dereferencer.dereference('http://example.org/', { fetch: myFetch });
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
