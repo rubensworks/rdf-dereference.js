@@ -74,12 +74,28 @@ const rdfDereferencer = require("rdf-dereference").default;
 
 ## Usage
 
+### Dereferencing an RDF document to a Store
+
+The `rdfDereferencer.dereference` method accepts an URL,
+and outputs a promise resolving to an object containing a quad stream.
+
+```javascript
+import { dereferenceStore } from 'rdf-dereference';
+
+const { store } = await dereferenceStore('http://dbpedia.org/page/12_Monkeys');
+
+// Logs all the quads in the store
+console.log(...store)
+```
+
 ### Dereferencing an RDF document
 
 The `rdfDereferencer.dereference` method accepts an URL,
 and outputs a promise resolving to an object containing a quad stream.
 
 ```javascript
+import rdfDereferencer from 'rdf-dereference';
+
 const { data } = await rdfDereferencer.dereference('http://dbpedia.org/page/12_Monkeys');
 data.on('data', (quad) => console.log(quad))
      .on('error', (error) => console.error(error))

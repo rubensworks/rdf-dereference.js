@@ -6,7 +6,7 @@ import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
 import 'cross-fetch';
 
-import dereferencer from "..";
+import dereferencer, { dereferenceStore } from "..";
 import { mocked } from 'ts-jest/utils';
 
 // Mock fetch
@@ -61,6 +61,20 @@ describe('dereferencer', () => {
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
+  });
+
+  it('should handle text/turtle responses to a store', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
+    const store = dereferenceStore('http://example.org/');
+    return expect(store).resolves.toBeRdfIsomorphic([
       quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
       quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
     ]);
