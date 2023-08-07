@@ -43,6 +43,7 @@
   ],
   "devDependencies": {
     "@comunica/runner": "^2.0.3",
+    "@comunica/types": "^2.8.1",
     "@types/jest": "^27.0.0",
     "@types/n3": "^1.10.3",
     "arrayify-stream": "^1.0.0",
@@ -116,6 +117,7 @@
     "@comunica/bus-rdf-parse": "^2.0.1",
     "@comunica/bus-rdf-parse-html": "^2.0.1",
     "@comunica/config-query-sparql": "^2.0.1",
+    "@comunica/context-entries": "^2.8.1",
     "@comunica/core": "^2.0.1",
     "@comunica/mediator-combine-pipeline": "^2.0.1",
     "@comunica/mediator-combine-union": "^2.0.1",

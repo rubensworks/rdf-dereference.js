@@ -156,6 +156,18 @@ const { data } = await rdfDereferencer.dereference('https://www.netflix.com/titl
 
 By default, the `GET` method will be used.
 
+#### Input: Using a custom fetch function
+
+You can pass custom headers for the HTTP request via the options object:
+
+```javascript
+const { data } = await rdfDereferencer.dereference('https://www.netflix.com/title/80180182', {
+  fetch: myFetch,
+});
+```
+
+By default, the `GET` method will be used.
+
 #### Output: Determining the final URL
 
 If dereferencing went through various redirects, it may be useful to determine the final URL.
