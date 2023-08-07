@@ -46,7 +46,7 @@
     "@comunica/types": "^2.8.1",
     "@types/jest": "^27.0.0",
     "@types/n3": "^1.10.3",
-    "arrayify-stream": "^1.0.0",
+    "arrayify-stream": "^2.0.0",
     "componentsjs-generator": "^3.0.1",
     "jest": "^27.0.1",
     "jest-rdf": "^1.7.0",
