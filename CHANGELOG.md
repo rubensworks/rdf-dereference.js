@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v2.2.0"></a>
+## [v2.2.0](https://github.com/rubensworks/rdf-dereference.js/compare/v2.1.0...v2.2.0) - 2023-08-07
+
+### Added
+* [Support custom fetch function (#46)](https://github.com/rubensworks/rdf-dereference.js/commit/b59ff0bd96de01c5f8ee7a01f8f09cc0f3c25532)
+
+### Changed
+* [Use process shim (#43)](https://github.com/rubensworks/rdf-dereference.js/commit/2accbad301bfad2e07bd424dbd88baef319115f0)
+
 <a name="v2.1.0"></a>
 ## [v2.1.0](https://github.com/rubensworks/rdf-dereference.js/compare/v2.0.1...v2.1.0) - 2023-01-31
 
