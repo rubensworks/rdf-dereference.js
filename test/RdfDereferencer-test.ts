@@ -181,6 +181,7 @@ describe('dereferencer', () => {
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
+      keepalive: true,
       method: 'GET',
     });
     expect(out.headers).toEqual(new Headers({
@@ -199,6 +200,7 @@ describe('dereferencer', () => {
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
+      keepalive: true,
       method: undefined,
     });
     expect((<any> mocked(fetch).mock.calls[0][1].headers).get('_a')).toEqual('A');
@@ -219,6 +221,7 @@ describe('dereferencer', () => {
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
+      keepalive: true,
       method: 'POST',
     });
     expect(out.headers).toEqual(new Headers({
