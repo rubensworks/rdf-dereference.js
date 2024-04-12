@@ -10,7 +10,7 @@ This tool is useful in situations where you have a URL,
 and you just need the _parsed triples/quads_,
 without having to concern yourself with determining the correct content type and picking the correct parser.
 
-RDF contents are returned as an _RDF stream_ with [RDFJS](http://rdf.js.org/)-compliant quads.
+RDF contents are returned as an _RDF stream_ with [RDFJS](http://rdf.js.org/)-compliant quads. If you would prefer a [`DatasetCore`](https://rdf.js.org/dataset-spec/#datasetcore-interface) return type see [rdf-dereference-store](https://www.npmjs.com/package/rdf-dereference-store).
 This library takes care of all the necessary boilerplate automatically,
 such as content negotiation for getting appropriate RDF serialization, decompression, following redirects, setting base URLs, and so on.
 If the server did not emit any content type, then the content type will be guessed based on well-known extensions.
