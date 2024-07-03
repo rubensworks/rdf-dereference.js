@@ -6,7 +6,7 @@ import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
 import 'cross-fetch';
 
-import dereferencer from "..";
+import {rdfDereferencer} from "..";
 import { mocked } from 'ts-jest/utils';
 
 // Mock fetch
@@ -40,18 +40,18 @@ describe('dereferencer', () => {
   });
 
   it('should be an RdfDereferencer instance', () => {
-    expect(dereferencer).toBeInstanceOf(RdfDereferencer);
+    expect(rdfDereferencer).toBeInstanceOf(RdfDereferencer);
   });
 
   it('should error on 404 responses', async () => {
     mockSetup({ statusCode: 404 });
-    return expect(dereferencer.dereference('http://example.org/')).rejects
+    return expect(rdfDereferencer.dereference('http://example.org/')).rejects
       .toThrow(new Error('Could not retrieve http://example.org/ (HTTP status 404):\nempty response'));
   });
 
   it('should error on errors', async () => {
     mockSetup({ error: true });
-    return expect(dereferencer.dereference('http://example.org/')).rejects
+    return expect(rdfDereferencer.dereference('http://example.org/')).rejects
       .toThrow(new Error('fetch error'));
   });
 
@@ -62,7 +62,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
-    const out = await dereferencer.dereference('http://example.org/');
+    const out = await rdfDereferencer.dereference('http://example.org/');
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -80,7 +80,7 @@ describe('dereferencer', () => {
 
     const myFetch: typeof fetch = async (url) => getMock({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } }) as any;
 
-    const out = await dereferencer.dereference('http://example.org/', { fetch: myFetch });
+    const out = await rdfDereferencer.dereference('http://example.org/', { fetch: myFetch });
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -96,7 +96,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, url: 'http://example.org/bla.ttl' });
-    const out = await dereferencer.dereference('http://example.org/bla.ttl');
+    const out = await rdfDereferencer.dereference('http://example.org/bla.ttl');
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/bla.ttl');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -112,7 +112,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle', 'content-location': 'http://example.org/bla' } });
-    const out = await dereferencer.dereference('http://example.org/');
+    const out = await rdfDereferencer.dereference('http://example.org/');
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -128,7 +128,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'text/turtle' } });
-    const out = await dereferencer.dereference('http://example.org/');
+    const out = await rdfDereferencer.dereference('http://example.org/');
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data))
@@ -142,7 +142,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'unknown' } });
-    return expect(dereferencer.dereference('http://example.org/')).rejects
+    return expect(rdfDereferencer.dereference('http://example.org/')).rejects
       .toThrow();
   });
 
@@ -159,7 +159,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: { 'content-type': 'application/ld+json' } });
-    const out = await dereferencer.dereference('http://example.org/');
+    const out = await rdfDereferencer.dereference('http://example.org/');
     expect(out.metadata).toBeFalsy();
     expect(out.url).toEqual('http://example.org/');
     return expect(arrayifyStream(out.data))
@@ -177,7 +177,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle' }) });
-    const out = await dereferencer.dereference('http://example.org/', { method: 'GET' });
+    const out = await rdfDereferencer.dereference('http://example.org/', { method: 'GET' });
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
@@ -195,7 +195,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle' }) });
-    const out = await dereferencer.dereference('http://example.org/', { headers: { _a: 'A', _b: 'B' } });
+    const out = await rdfDereferencer.dereference('http://example.org/', { headers: { _a: 'A', _b: 'B' } });
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
@@ -215,7 +215,7 @@ describe('dereferencer', () => {
 `);
     body.push(null);
     mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle' }) });
-    const out = await dereferencer.dereference('http://example.org/', { method: 'POST' });
+    const out = await rdfDereferencer.dereference('http://example.org/', { method: 'POST' });
     expect(fetch).toHaveBeenCalledWith('http://example.org/', {
       agent: expect.anything(),
       headers: expect.anything(),
@@ -227,7 +227,7 @@ describe('dereferencer', () => {
   });
 
   it('should handle relative local .ttl files', async () => {
-    const out = await dereferencer.dereference('test/assets/example.ttl', { localFiles: true });
+    const out = await rdfDereferencer.dereference('test/assets/example.ttl', { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -237,12 +237,12 @@ describe('dereferencer', () => {
   });
 
   it('should error on relative local .ttl files without localFiles flag', async () => {
-    await expect(dereferencer.dereference('test/assets/example.ttl')).rejects.toThrow(
+    await expect(rdfDereferencer.dereference('test/assets/example.ttl')).rejects.toThrow(
       new Error('Tried to dereference a local file without enabling localFiles option: test/assets/example.ttl'));
   });
 
   it('should handle absolute local .ttl files', async () => {
-    const out = await dereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'), { localFiles: true });
+    const out = await rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'), { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -252,7 +252,7 @@ describe('dereferencer', () => {
   });
 
   it('should handle absolute local .shaclc files', async () => {
-    const out = await dereferencer.dereference(join(process.cwd(), 'test/assets/example.shaclc'), { localFiles: true });
+    const out = await rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.shaclc'), { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.shaclc'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
@@ -262,7 +262,7 @@ describe('dereferencer', () => {
   });
 
   it('should error on absolute local .ttl files without localFiles flag', async () => {
-    await expect(dereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'))).rejects.toThrow(
+    await expect(rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'))).rejects.toThrow(
       new Error('Tried to dereference a local file without enabling localFiles option: '
         + join(process.cwd(), 'test/assets/example.ttl')));
   });

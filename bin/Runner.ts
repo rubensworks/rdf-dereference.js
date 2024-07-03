@@ -2,7 +2,7 @@
 import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
 import {quadToStringQuad} from "rdf-string";
 import * as RDF from '@rdfjs/types';
-import rdfDereferencer from "..";
+import {rdfDereferencer} from "..";
 
 // tslint:disable:no-console
 // tslint:disable:no-var-requires
@@ -19,7 +19,7 @@ Usage:
   process.exit(1);
 }
 
-rdfDereferencer.dereference(args[0], { localFiles: true })
+rdfDereferencer.dereference(args[0], {localFiles: true})
   .then((out: IActorDereferenceRdfOutput) => {
     process.stdout.write('[');
     let first = true;
