@@ -5,6 +5,7 @@ import {join} from "path";
 import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
 import 'cross-fetch';
+import { Headers } from 'cross-fetch';
 
 import {rdfDereferencer} from "..";
 import { mocked } from 'ts-jest/utils';
@@ -95,7 +96,7 @@ describe('dereferencer', () => {
 <http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
 `);
     body.push(null);
-    mockSetup({ statusCode: 200, body, url: 'http://example.org/bla.ttl' });
+    mockSetup({ statusCode: 200, body, headers: {}, url: 'http://example.org/bla.ttl' });
     const out = await rdfDereferencer.dereference('http://example.org/bla.ttl');
     expect(out.metadata.triples).toBeTruthy();
     expect(out.url).toEqual('http://example.org/bla.ttl');
@@ -182,6 +183,7 @@ describe('dereferencer', () => {
       agent: expect.anything(),
       headers: expect.anything(),
       method: 'GET',
+      keepalive: true,
     });
     expect(out.headers).toEqual(new Headers({
       'content-type': 'text/turtle',
@@ -200,6 +202,7 @@ describe('dereferencer', () => {
       agent: expect.anything(),
       headers: expect.anything(),
       method: undefined,
+      keepalive: true,
     });
     expect((<any> mocked(fetch).mock.calls[0][1].headers).get('_a')).toEqual('A');
     expect((<any> mocked(fetch).mock.calls[0][1].headers).get('_b')).toEqual('B');
@@ -220,6 +223,7 @@ describe('dereferencer', () => {
       agent: expect.anything(),
       headers: expect.anything(),
       method: 'POST',
+      keepalive: true,
     });
     expect(out.headers).toEqual(new Headers({
       'content-type': 'text/turtle',
@@ -229,7 +233,7 @@ describe('dereferencer', () => {
   it('should handle relative local .ttl files', async () => {
     const out = await rdfDereferencer.dereference('test/assets/example.ttl', { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
-    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
+    expect(out.url).toEqual('file://' + join(process.cwd(), 'test/assets/example.ttl'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
       quad(out.url, 'http://ex.org/p', 'http://ex.org/o1'),
       quad(out.url, 'http://ex.org/p', 'http://ex.org/o2'),
@@ -244,7 +248,7 @@ describe('dereferencer', () => {
   it('should handle absolute local .ttl files', async () => {
     const out = await rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'), { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
-    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.ttl'));
+    expect(out.url).toEqual('file://' + join(process.cwd(), 'test/assets/example.ttl'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
       quad(out.url, 'http://ex.org/p', 'http://ex.org/o1'),
       quad(out.url, 'http://ex.org/p', 'http://ex.org/o2'),
@@ -254,7 +258,7 @@ describe('dereferencer', () => {
   it('should handle absolute local .shaclc files', async () => {
     const out = await rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.shaclc'), { localFiles: true });
     expect(out.metadata.triples).toBeTruthy();
-    expect(out.url).toEqual(join(process.cwd(), 'test/assets/example.shaclc'));
+    expect(out.url).toEqual('file://' + join(process.cwd(), 'test/assets/example.shaclc'));
     return expect(arrayifyStream(out.data)).resolves.toBeRdfIsomorphic([
       quad("http://localhost:3002/ContactsShape#ContactsShape", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/ns/shacl#NodeShape"),
       quad("http://localhost:3002/ContactsShape", "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.w3.org/2002/07/owl#Ontology"),
