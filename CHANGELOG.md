@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v3.0.0"></a>
+## [v3.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v2.2.0...v3.0.0) - 2024-07-04
+
+### TODO: categorize commits, choose titles from: Added, Changed, Deprecated, Removed, Fixed, Security.
+* [Replace default export with named export `rdfDereferencer` for better ESM support (#53)](https://github.com/rubensworks/rdf-dereference.js/commit/13d623cc8173bfe2e12df2f5ff3e1dda945c6159)
+  * Update your imports to `import { rdfDereferencer } from "rdf-dereference";`
+
 <a name="v2.2.0"></a>
 ## [v2.2.0](https://github.com/rubensworks/rdf-dereference.js/compare/v2.1.0...v2.2.0) - 2023-08-07
 
