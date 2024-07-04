@@ -63,13 +63,13 @@ This package also works out-of-the-box in browsers via tools such as [webpack](h
 ## Require
 
 ```typescript
-import rdfDereferencer from "rdf-dereference";
+import { rdfDereferencer } from "rdf-dereference";
 ```
 
 _or_
 
 ```javascript
-const rdfDereferencer = require("rdf-dereference").default;
+const { rdfDereferencer } = require("rdf-dereference");
 ```
 
 ## Usage
