@@ -24,7 +24,7 @@ export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad> extends RdfDeref
       if (!options.localFiles) {
         return Promise.reject(
           new Error('Tried to dereference a local file without enabling localFiles option: ' + url));
-      } else if (!url.startsWith('/')) {
+      } else if (!url.startsWith('/') && !(url.indexOf(':') < url.indexOf('\\'))) {
         url = join(process.cwd(), url);
       }
     }
