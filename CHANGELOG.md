@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v4.0.0"></a>
+## [v4.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v3.0.0...v4.0.0) - 2024-10-15
+
+### BREAKING CHANGES
+* [Bump to Comunica v4](https://github.com/rubensworks/rdf-dereference.js/commit/a24da07415ccb323397b4fb3efd0bafc35bbbe02)
+  * Besides performance improvements, this increases the minimum requires Node.js version to 18.
+
 <a name="v3.0.0"></a>
 ## [v3.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v2.2.0...v3.0.0) - 2024-07-04
 
