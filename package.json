@@ -56,7 +56,7 @@
     "jest-rdf": "^2.0.0",
     "manual-git-changelog": "^1.0.1",
     "pre-commit": "^1.2.2",
-    "rdf-data-factory": "^1.1.2",
+    "rdf-data-factory": "^2.0.0",
     "rdf-quad": "^2.0.0",
     "streamify-string": "^1.0.1",
     "ts-jest": "^27.0.1",
@@ -128,7 +128,7 @@
     "@comunica/mediator-number": "^4.0.1",
     "@comunica/mediator-race": "^4.0.1",
     "@rdfjs/types": "*",
-    "rdf-data-factory": "^1.1.2",
+    "rdf-data-factory": "^2.0.0",
     "rdf-string": "^1.6.3",
     "stream-to-string": "^1.2.1"
   },
