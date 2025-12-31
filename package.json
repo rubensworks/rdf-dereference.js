@@ -129,7 +129,7 @@
     "@comunica/mediator-race": "^4.0.1",
     "@rdfjs/types": "*",
     "rdf-data-factory": "^1.1.2",
-    "rdf-string": "^1.6.3",
+    "rdf-string": "^2.0.0",
     "stream-to-string": "^1.2.1"
   },
   "browser": {
