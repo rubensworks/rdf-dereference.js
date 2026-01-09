@@ -24,7 +24,8 @@ export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
    */
   public dereference(url: string, options: IDereferenceOptions = {}): Promise<IActorDereferenceRdfOutput> {
     const context = new ActionContext(options)
-      .setDefault(KeysInitQuery.dataFactory, new DataFactory());
+      .setDefault(KeysInitQuery.dataFactory, new DataFactory())
+      .setDefault(KeysInitQuery.parseUnsupportedVersions, options.parseUnsupportedVersions);
     // Delegate dereferencing to the mediator
     return this.mediatorDereferenceRdf.mediate({
       context: typeof options.fetch === 'function' ? context.setDefault(KeysHttp.fetch, options.fetch) : context,
@@ -55,6 +56,11 @@ export interface IDereferenceOptions {
    * The fetch function to use.
    */
   fetch?: typeof fetch;
+  /**
+   * By default, errors will be emitted if parsers encounter unsupported versions.
+   * Setting this flag to true will silence those checks.
+   */
+  parseUnsupportedVersions?: boolean;
 }
 
 export interface IRdfDerefencerArgs {

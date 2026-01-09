@@ -1,6 +1,6 @@
 import "jest-rdf";
-const arrayifyStream = require('arrayify-stream');
 const quad = require('rdf-quad');
+import {arrayifyStream} from 'arrayify-stream';
 import {join} from "path";
 import {Readable} from "stream";
 import {RdfDereferencer} from "../lib/RdfDereferencer";
@@ -8,7 +8,7 @@ import 'cross-fetch';
 import { Headers } from 'cross-fetch';
 
 import {rdfDereferencer} from "..";
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 // Mock fetch
 let fetchOut: any;
@@ -269,5 +269,42 @@ describe('dereferencer', () => {
     await expect(rdfDereferencer.dereference(join(process.cwd(), 'test/assets/example.ttl'))).rejects.toThrow(
       new Error('Tried to dereference a local file without enabling localFiles option: '
         + join(process.cwd(), 'test/assets/example.ttl')));
+  });
+
+  it('should handle known versions', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle; version=1.2' }) });
+    await expect(arrayifyStream((await rdfDereferencer.dereference('http://example.org/')).data)).resolves.toBeRdfIsomorphic([
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
+  });
+
+  it('should error on unknown versions', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle; version=unknown' }) });
+    await expect(arrayifyStream((await rdfDereferencer.dereference('http://example.org/')).data)).rejects.toThrow(
+            new Error('Detected unsupported version as media type parameter: "unknown" on line 2.'));
+  });
+
+  it('should handle unknown versions with parseUnsupportedVersions', async () => {
+    const body = new Readable();
+    body.push(`
+<http://ex.org/s> <http://ex.org/p> <http://ex.org/o1>, <http://ex.org/o2>.
+`);
+    body.push(null);
+    mockSetup({ statusCode: 200, body, headers: new Headers({ 'content-type': 'text/turtle; version=unknown' }) });
+    await expect(arrayifyStream((await rdfDereferencer.dereference('http://example.org/', { parseUnsupportedVersions: true })).data)).resolves.toBeRdfIsomorphic([
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o1'),
+      quad('http://ex.org/s', 'http://ex.org/p', 'http://ex.org/o2'),
+    ]);
   });
 });
