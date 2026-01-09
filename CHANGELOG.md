@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+<a name="v5.0.0"></a>
+## [v5.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v4.0.0...v5.0.0) - 2026-01-09
+
+### BREAKING CHANGE
+* [Update to Comunica v5 with RDF 1.2 support](https://github.com/rubensworks/rdf-dereference.js/commit/ae1ae8f41814600caa495bb6ab6ad0f7e856bf21)
+    This adds RDF 1.2 support, and removes RDF-star support.
+    The minimum Node.js version is now 20.
+
 <a name="v4.0.0"></a>
 ## [v4.0.0](https://github.com/rubensworks/rdf-dereference.js/compare/v3.0.0...v4.0.0) - 2024-10-15
 
