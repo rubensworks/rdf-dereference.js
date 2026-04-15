@@ -1,14 +1,12 @@
-import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
-import {join} from "path";
-import * as RDF from "@rdfjs/types";
-import {IDereferenceOptions, RdfDereferencerBase} from "./RdfDereferencerBase";
-const process = require("process/");
+import { join } from "node:path";
+import type { IActorDereferenceRdfOutput } from "@comunica/bus-dereference-rdf";
+import type { IDereferenceOptions } from "./RdfDereferencerBase";
+import { RdfDereferencerBase } from "./RdfDereferencerBase";
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
  */
-export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad> extends RdfDereferencerBase<Q> {
-
+export class RdfDereferencer extends RdfDereferencerBase {
   /**
    * Dereference the given URL to an RDF stream.
    * @param {string} url An HTTP(S) HTTPS URL, or a local file path.
@@ -23,13 +21,14 @@ export class RdfDereferencer<Q extends RDF.BaseQuad = RDF.Quad> extends RdfDeref
     if (!url.startsWith('http')) {
       if (!options.localFiles) {
         return Promise.reject(
-          new Error('Tried to dereference a local file without enabling localFiles option: ' + url));
-      } else if (!url.startsWith('/') && !(url.indexOf(':') < url.indexOf('\\'))) {
+          new Error(`Tried to dereference a local file without enabling localFiles option: ${url}`),
+        );
+      }
+      if (!url.startsWith('/') && !(url.indexOf(':') < url.indexOf('\\'))) {
         url = join(process.cwd(), url);
       }
     }
 
     return super.dereference(url, options);
   }
-
 }

@@ -1,18 +1,16 @@
-import {IActorDereferenceRdfOutput} from "@comunica/bus-dereference-rdf";
-import { ActionContext, Actor } from "@comunica/core";
-import * as RDF from "@rdfjs/types";
-import { MediatorDereferenceRdf } from '@comunica/bus-dereference-rdf';
+import type { IActorDereferenceRdfOutput, MediatorDereferenceRdf } from "@comunica/bus-dereference-rdf";
 import { KeysHttp, KeysInitQuery } from '@comunica/context-entries';
+import type { Actor } from "@comunica/core";
+import { ActionContext } from "@comunica/core";
 import { DataFactory } from 'rdf-data-factory';
 
 /**
  * An RdfDerefencer can dereference URLs to RDF streams, using any RDF serialization.
  */
-export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
-
+export class RdfDereferencerBase {
   public readonly mediatorDereferenceRdf: MediatorDereferenceRdf;
 
-  constructor(args: IRdfDerefencerArgs) {
+  public constructor(args: IRdfDerefencerArgs) {
     this.mediatorDereferenceRdf = args.mediatorDereferenceRdf;
   }
 
@@ -34,7 +32,6 @@ export class RdfDereferencerBase<Q extends RDF.BaseQuad = RDF.Quad> {
       url,
     });
   }
-
 }
 
 export interface IDereferenceOptions {
@@ -46,7 +43,7 @@ export interface IDereferenceOptions {
   /**
    * Optional HTTP headers to pass.
    */
-  headers?: {[key: string]: string};
+  headers?: Record<string, string>;
   /**
    * If dereferencing of local files should be enabled.
    * This is not possible in browser environments.

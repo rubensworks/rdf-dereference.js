@@ -69,7 +69,7 @@
   "scripts": {
     "test": "jest ${1}",
     "test-watch": "jest ${1} --watch",
-    "lint": "eslint . --cache",
+    "lint": "eslint lib/**/*.ts test/**/*.ts --cache",
     "build": "npm run build:ts && npm run build:components",
     "build:ts": "tsc",
     "build:components": "componentsjs-generator",
@@ -133,6 +133,6 @@
   },
   "browser": {
     "./engine-default.js": "./engine-browser.js",
-    "./lib/RdfDereferencer.js": "./lib/RdfDereferencer-browser.js"
+    "./lib/RdfDereferencer.js": "./lib/RdfDereferencerBrowser.js"
   }
 }
