@@ -19,6 +19,7 @@ yarn-error.log
 **/index.d.ts
 coverage
 documentation
+.eslintcache
 engine-default.js
 engine-browser.js
 components
