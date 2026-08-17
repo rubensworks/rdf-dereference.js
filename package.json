@@ -127,7 +127,7 @@
     "rdf-quad": "^2.0.0",
     "streamify-string": "^1.0.1",
     "ts-jest": "^29.4.6",
-    "typescript": "^6.0.0",
+    "typescript": "^7.0.0",
     "webpack": "^5.0.0",
     "webpack-cli": "^7.0.0"
   },
